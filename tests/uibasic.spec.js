@@ -48,18 +48,15 @@ test("Broser Context Declaration", async ({ browser }) => {
   await page.goto("https://www.instagram.com/");
 
   // up and down are same things only one using fixture of page and one doing it manually
-  
 });
 
 test("Page playwright test", async ({ page }) => {
   await page.goto("https://www.google.com/");
 });
 
-
 /* 
     test.only would do only that when you use npx playwright test
 */
-
 
 /* 
 
@@ -67,15 +64,14 @@ test("Page playwright test", async ({ page }) => {
     There are Hardly 25 Assertions we need to learn
 */
 
-test('Title Verification', async ({page}) => {
-    await page.goto("https://google.com");
-    console.log(await page.title);
+test("Title Verification", async ({ page }) => {
+  await page.goto("https://google.com");
+  console.log(await page.title);
 
-    await expect(page).toHaveTitle('Google');
- });
+  await expect(page).toHaveTitle("Google");
+});
 
-
- /* 
+/* 
  
     CSS and XPATH are the Selectors that help playwright to do or identify things
 
@@ -91,22 +87,32 @@ test('Title Verification', async ({page}) => {
  
  */
 
+test("login Test failed error validation", async ({ page }) => {
+  await page.goto("http://www.rahulshettyacademy.com/loginpagePractise/");
+  await page.locator("[name = 'username']").fill("rahulshettyacadem");
+  await page.locator("[name = 'password']").fill("learning");
+  await page.locator("[name = 'signin']").click();
 
-test.only('login Test failed error validation', async ({page}) => { 
-    await page.goto("http://www.rahulshettyacademy.com/loginpagePractise/");
-    await page.locator("[name = 'username']").fill("rahulshettyacadem");
-    await page.locator("[name = 'password']").fill("learning");
-    await page.locator("[name = 'signin']").click();
-
-    /* 
+  /* 
         So here basically what is happening is on Clicking Submit it is throwing error message thats a toast
         the attribute style for it is changing display from none to block. so we will use this Playwright thing 
         for the workaround
 
         Text Content will extract the Content of that Css
     */
-   await expect( page.locator("[style*= 'block']")).toContainText('Incorrect');
+  await expect(page.locator("[style*= 'block']")).toContainText("Incorrect");
+});
 
- });
+test.only("Login Error Checking using the stored locators", async () => {
+  await page.goto("http://www.rahulshettyacademy.com/loginpagePractise/");
 
+  const username = page.locator("[name = username]");
+  const password = page.locator("[name = password");
+  const signin = page.locator("name = signin");
+  const effchng = page.locator("style*=block");
 
+  await username.fill("rahulshettyacadem");
+  await password.fill("learning");
+  await signin.click();
+  await expect(effchng).toContainText("Incorrect");
+});
