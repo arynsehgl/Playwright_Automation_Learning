@@ -170,3 +170,19 @@ test.only("Automation homework", async ({ page }) => {
     "https://rahulshettyacademy.com/client/#/dashboard/dash"
   );
 });
+
+test.only("Getting all the Products on the Homework page", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/client/#auth/login");
+  const email = page.locator("[formcontrolname='userEmail']");
+  const pwd = page.locator("[formcontrolname='userPassword']");
+  const login = page.locator("[name='login']");
+
+  await email.fill("aryan2001sehgal@gmail.com");
+  await pwd.fill("Semester@77");
+  await login.click();
+
+  const identif = page.locator('h5[style*="text-transform"] b');
+  console.log(await identif.first().textContent());
+
+  console.log(await identif.allTextContents());
+});
