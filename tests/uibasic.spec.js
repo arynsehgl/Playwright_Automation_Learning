@@ -103,16 +103,70 @@ test("login Test failed error validation", async ({ page }) => {
   await expect(page.locator("[style*= 'block']")).toContainText("Incorrect");
 });
 
-test.only("Login Error Checking using the stored locators", async () => {
+test("Login Error Checking using the stored locators", async ({ page }) => {
   await page.goto("http://www.rahulshettyacademy.com/loginpagePractise/");
 
-  const username = page.locator("[name = username]");
-  const password = page.locator("[name = password");
-  const signin = page.locator("name = signin");
-  const effchng = page.locator("style*=block");
+  const username = page.locator("[name = 'username']");
+  const password = page.locator("[name = 'password']");
+  const signin = page.locator("[name = 'signin']");
+  const effchng = page.locator("[style*='block']");
 
   await username.fill("rahulshettyacadem");
   await password.fill("learning");
   await signin.click();
   await expect(effchng).toContainText("Incorrect");
+});
+
+// To Traverse inside a DIV what to do?
+/* 
+    .class-name child tag name here a;
+*/
+
+test("multiple attribute same", async ({ page }) => {
+  await page.goto("http://www.rahulshettyacademy.com/loginpagePractise/");
+
+  const username = page.locator("[name = 'username']");
+  const password = page.locator("[name = 'password']");
+  const signin = page.locator("[name = 'signin']");
+  const effchng = page.locator("[style*='block']");
+
+  await username.fill("rahulshettyacademy");
+  await password.fill("learning");
+  await signin.click();
+
+  // const ipx = page.locator(".card-body a");
+  console.log(await page.locator(".card-body a").nth(0).textContent()); //This will give Iphone X since the array will be there and it will return the first one
+  console.log(await page.locator(".card-body a").first().textContent()); // This will return the First one for last we can use last for in between use nth
+
+  // lets say we want to add all of the things Products etc.
+  const cardtitle = page.locator(".card-body a");
+  console.log(await cardtitle.nth(1).textContent());
+  const alltitle = await cardtitle.allTextContents();
+
+  console.log(alltitle);
+
+  /* 
+    Now for the Textcontent we have autowaiting feature by playwright so it will wait until that locator is attached to the DOM 
+    but for alltextcontent its not really adding anything up so we need something workaround
+    This is returning array array can have 0 or 100 elements. if it loads even without wait it return 0 element array which is valid so it passes
+    but this is flaky.
+
+    it is working here because first element was found first for that it already has waiting period whatever we set like 40s so then when we use alltextcontent it return 0 
+    so thats the issue.
+  */
+});
+
+test.only("Automation homework", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
+
+  const email = page.locator("[formcontrolname='userEmail']");
+  const pwd = page.locator("[formcontrolname='userPassword']");
+  const login = page.locator("[name='login']");
+
+  await email.fill("aryan2001sehgal@gmail.com");
+  await pwd.fill("Semester@77");
+  await login.click();
+  await expect(page).toHaveURL(
+    "https://rahulshettyacademy.com/client/#/dashboard/dash"
+  );
 });
