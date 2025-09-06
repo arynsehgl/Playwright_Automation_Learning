@@ -200,7 +200,7 @@ test("Getting all the Products on the Homework page", async ({ page }) => {
   */
 });
 
-test.only("This test is for Radio buttons etc selecting dropdown", async ({
+test("This test is for Radio buttons etc selecting dropdown", async ({
   page,
 }) => {
   await page.goto("https://www.rahulshettyacademy.com/loginpagePractise/");
@@ -228,3 +228,23 @@ test.only("This test is for Radio buttons etc selecting dropdown", async ({
   // To Uncheck it we don't have an assertion so what we can do is to check with the same isChecked method and add .toBeFalse(); using expect assertion basically
   // we are expectin it to return false to us there is also toBeTruthy to check for True
 });
+
+
+/* 
+   when we are storing a locator in variable we don't use await and in expect also we use await inside expect 
+   because we want the await only to be used before any action is performed
+
+*/
+
+
+
+// To Check if the text is blinking or not
+
+test.only("This is to test for the blinking of the thing on the webpage", async({page}) => {
+  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
+  const blinker = page.locator(".blink_me");
+  await expect(blinker).toHaveAttribute("class", "blink_me");
+});
+
+
+
