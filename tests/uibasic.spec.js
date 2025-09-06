@@ -290,4 +290,5 @@ test.only("Child Tab handling", async ({ browser }) => {
   const text = npg.locator(".hero_register_btn");
   const contents = await text.textContent();
   console.log(contents);
+  
 });
