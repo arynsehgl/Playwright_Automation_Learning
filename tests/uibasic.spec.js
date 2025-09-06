@@ -171,7 +171,7 @@ test("Automation homework", async ({ page }) => {
   );
 });
 
-test.only("Getting all the Products on the Homework page", async ({ page }) => {
+test("Getting all the Products on the Homework page", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/client/#auth/login");
   const email = page.locator("[formcontrolname='userEmail']"); // We can also use #userEmail and #userPassword
   const pwd = page.locator("[formcontrolname='userPassword']");
@@ -198,4 +198,33 @@ test.only("Getting all the Products on the Homework page", async ({ page }) => {
     better is to call that particular locator.waitFor(); so it will wait until that locator is loaded Completely and then we can Proceed on to gettting wnatev we want
     wait for is to be used only for one locator identif above is returning 3 or something so it won't work we can use first() or last()
   */
+});
+
+test.only("This test is for Radio buttons etc selecting dropdown", async ({
+  page,
+}) => {
+  await page.goto("https://www.rahulshettyacademy.com/loginpagePractise/");
+
+  const username = page.locator("[name = 'username']");
+  const password = page.locator("[name = 'password']");
+
+  const dropdown = page.locator("select.form-control");
+
+  await dropdown.selectOption("consult");
+  // await page.pause(); //This will open a playwright inspector and the ui would be paused
+
+  await username.fill("rahulshettyacademy");
+  await password.fill("learning");
+  await page.locator(".radiotextsty").last().click();
+
+  await page.locator("#okayBtn").click();
+
+  // To actually check if radio button is selected
+
+  await expect(page.locator(".radiotextsty")).last().toBeChecked(); // This is assertion
+
+  //If we use Console.log we can do console.log(await page.locator(".radiotextsty").last().isChecked());
+
+  // To Uncheck it we don't have an assertion so what we can do is to check with the same isChecked method and add .toBeFalse(); using expect assertion basically
+  // we are expectin it to return false to us there is also toBeTruthy to check for True
 });

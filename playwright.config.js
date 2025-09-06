@@ -16,7 +16,7 @@ export default defineConfig({
   testDir: "./tests",
   timeout: 40000,
   expect: {
-    timeout: 40000
+    timeout: 40000,
   },
 
   fullyParallel: true,
@@ -31,7 +31,7 @@ export default defineConfig({
 
   use: {
     trace: "on-first-retry",
-    browserName: 'chromium',
+    browserName: "webkit",
     headless: false,
   },
 
