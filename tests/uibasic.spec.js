@@ -156,7 +156,7 @@ test("multiple attribute same", async ({ page }) => {
   */
 });
 
-test.only("Automation homework", async ({ page }) => {
+test("Automation homework", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
 
   const email = page.locator("[formcontrolname='userEmail']");
@@ -173,7 +173,7 @@ test.only("Automation homework", async ({ page }) => {
 
 test.only("Getting all the Products on the Homework page", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/client/#auth/login");
-  const email = page.locator("[formcontrolname='userEmail']");
+  const email = page.locator("[formcontrolname='userEmail']"); // We can also use #userEmail and #userPassword
   const pwd = page.locator("[formcontrolname='userPassword']");
   const login = page.locator("[name='login']");
 
@@ -182,7 +182,20 @@ test.only("Getting all the Products on the Homework page", async ({ page }) => {
   await login.click();
 
   const identif = page.locator('h5[style*="text-transform"] b');
-  console.log(await identif.first().textContent());
+  // console.log(await identif.first().textContent()); Commenting it out post the below code because this is not the right way of doing things we just want all content
 
   console.log(await identif.allTextContents());
+
+  // There is also a API wherein we get all the data from a Particular website so we can use that as well. we have to wait until all calls are made. Login Call and then 2s
+  // Product Call is madee
+
+  // await page.waitForLoadState("networkidle"); // we put the wait here and now we can uset allTextContents without the first text content.
+  await identif.first().waitFor();
+  console.log(await identif.allTextContents());
+
+  /* 
+    The above Networkidle waitForLoadState can be a little flaky sometimes
+    better is to call that particular locator.waitFor(); so it will wait until that locator is loaded Completely and then we can Proceed on to gettting wnatev we want
+    wait for is to be used only for one locator identif above is returning 3 or something so it won't work we can use first() or last()
+  */
 });
