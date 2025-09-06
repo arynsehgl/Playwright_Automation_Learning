@@ -31,7 +31,7 @@ export default defineConfig({
 
   use: {
     trace: "on-first-retry",
-    browserName: "webkit",
+    browserName: "chromium",
     headless: false,
   },
 

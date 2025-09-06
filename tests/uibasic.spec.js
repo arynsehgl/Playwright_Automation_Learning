@@ -229,22 +229,65 @@ test("This test is for Radio buttons etc selecting dropdown", async ({
   // we are expectin it to return false to us there is also toBeTruthy to check for True
 });
 
-
 /* 
    when we are storing a locator in variable we don't use await and in expect also we use await inside expect 
    because we want the await only to be used before any action is performed
 
 */
 
-
-
 // To Check if the text is blinking or not
 
-test.only("This is to test for the blinking of the thing on the webpage", async({page}) => {
+test("This is to test for the blinking of the thing on the webpage", async ({
+  page,
+}) => {
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   const blinker = page.locator(".blink_me");
   await expect(blinker).toHaveAttribute("class", "blink_me");
 });
 
+// To Check if on Clicking thaat Blinking text it is taking to some different page so this new page new tab have a certain text or not is something we need to test
 
+test.only("Child Tab handling", async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
 
+  const email = page.locator("[formcontrolname='userEmail']"); // We can also use #userEmail and #userPassword
+  const pwd = page.locator("[formcontrolname='userPassword']");
+  const login = page.locator("[name='login']");
+
+  await email.fill("aryan2001sehgal@gmail.com");
+  await pwd.fill("Semester@77");
+  await login.click();
+
+  const blinker = page.locator("[href='https://qasummit.org/']");
+
+  // blinker.click();
+
+  // Here our scope of testing is only that page. page which we have defined on the top
+
+  /*
+    we need to move to a new page so we need to use a work around
+  */
+
+  // const npg = context.waitForEvent('page'); // To listen for a new page if being opened now we can use npg as new page
+  // we have promise  pending rejected fulfilled
+
+  /* 
+  
+    So now in the aboev context. waitforEvent wala thing if we have it like the same and then we in next line add blinker click wala thing
+    if we put await in that step or make that step uppr ya neeche it doesn't matter it wont help us.
+    Phele await kar lega and then it will be like no page move to next step and then new page opened koi fayda nahi
+
+    later if we move that step down tab bhi nahi fayda we want ki dono step parallel ho toh for that we use promise
+    yeh Promise wala will keep on executing until it is fulfilled and if rejected to woh script failed 
+  */
+
+  const [npg] = await Promise.all([context.waitForEvent("page"), blinker.click()]);
+
+  // now we can use npg.locator etc
+
+  const text = npg.locator(".hero_register_btn");
+  const contents = await text.textContent();
+  console.log(contents);
+});
