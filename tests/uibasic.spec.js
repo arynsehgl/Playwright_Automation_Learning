@@ -247,7 +247,7 @@ test("This is to test for the blinking of the thing on the webpage", async ({
 
 // To Check if on Clicking thaat Blinking text it is taking to some different page so this new page new tab have a certain text or not is something we need to test
 
-test.only("Child Tab handling", async ({ browser }) => {
+test("Child Tab handling", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
@@ -291,4 +291,18 @@ test.only("Child Tab handling", async ({ browser }) => {
   const contents = await text.textContent();
   console.log(contents);
   
+});
+
+/* 
+  So we are trying to understand here the difference between textContent and input value
+  To Check the value that got added later by us we cannot get by textContent we have to use input value
+
+*/
+
+test.only("To check the value entered in the input field", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+  const email = page.locator("[name='username']");
+  await email.fill("aryan2001sehgal@gmail.com");
+  const value = await email.inputValue();
+  console.log(value);
 });
