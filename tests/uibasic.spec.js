@@ -283,26 +283,36 @@ test("Child Tab handling", async ({ browser }) => {
     yeh Promise wala will keep on executing until it is fulfilled and if rejected to woh script failed 
   */
 
-  const [npg] = await Promise.all([context.waitForEvent("page"), blinker.click()]);
+  const [npg] = await Promise.all([
+    context.waitForEvent("page"),
+    blinker.click(),
+  ]);
 
   // now we can use npg.locator etc
 
   const text = npg.locator(".hero_register_btn");
   const contents = await text.textContent();
   console.log(contents);
-  
 });
 
 /* 
   So we are trying to understand here the difference between textContent and input value
   To Check the value that got added later by us we cannot get by textContent we have to use input value
-
+  Basically anything in DOM we can grab using textContent but if it is something that is entered by user or by us we have to use inputValue
 */
 
-test.only("To check the value entered in the input field", async ({ page }) => {
+test("To check the value entered in the input field", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   const email = page.locator("[name='username']");
   await email.fill("aryan2001sehgal@gmail.com");
   const value = await email.inputValue();
   console.log(value);
 });
+
+/* 
+  Playwright Inspector and Debugging
+   npx playwright test --debug this will open the debugger playwright inspector and it will help us go step
+   by step and see what is happening
+*/
+
+
